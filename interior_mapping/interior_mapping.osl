@@ -29,7 +29,7 @@ float center(float coord) {
     return -(1/(coord * 2) - 0.5);
 }
 
-shader emim(string filename = "" [[ string widget = "filename" ]],
+shader emim(string filename     = "" [[ string widget = "filename" ]],
 
             float roomScaleX    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
             float roomScaleY    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
