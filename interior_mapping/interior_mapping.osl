@@ -116,7 +116,7 @@ shader emim(string filename     = "" [[ string widget = "filename" ]],
     vector uvBT = uvRemap(uvY, t1, t2, 0,  t1, 0, 0, fR, 0) * uvMask(uvY) * maskB;
     vector uvWB = uvRemap(uvZ(layerWAttr, 0), t1, t2, t1, t2, 0, 0, fR, 0) * uvMask(uvZ(layerWAttr, 0));
 
-    vector uvMerge = uvWB + uvWR + uvWL + uvBT + uvTP;
+    vector uvMerge = uvWR + uvWL + uvTP + uvBT + uvWB;
     color colMerge = texture(filename, uvMerge[0], 1 - uvMerge[1]);
 
     // layers uv remap & texture
