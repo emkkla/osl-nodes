@@ -1,6 +1,5 @@
 # osl-nodes
-The OSL code I make is only tested with Isotropix Clarisse.
-It is thus designed for Y up axis coordinates in mind.
+The OSL code I make is only tested with Isotropix Clarisse. It is thus designed for Y up axis coordinates in mind.
 
 ## Interior Mapping Shader
 
@@ -11,5 +10,4 @@ It is thus designed for Y up axis coordinates in mind.
 | Global texture flop for the room, individual texture flop for each layers |
 | Testing texture template included |
 
-
-Code is never clean enough, so if you have a better implementation, feel free to commit.
+Code is never clean enough, so if you have a better implementation, feel free to contact me or submit a commit.
