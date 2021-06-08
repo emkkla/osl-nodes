@@ -1,20 +1,11 @@
 // Interior Mapping Shader v1.0.1 - Emeric Larochette
 
-vector uvRemap(vector input,
-                float uMin,
-                float uMax,
-                float vMin,
-                float vMax,
-                int preFlop,
-                int preFlip,
-                int postFlop,
-                int postFlip) {
-    vector i = input;
+vector uvRemap(vector uv, float uMin, float uMax, float vMin, float vMax, int preFlop, int preFlip, int postFlop) {
+    vector i = uv;
     if (preFlop) i = vector(1 - i[0], i[1], 0);
     if (preFlip) i = vector(i[0], 1 - i[1], 0);
     i = vector(uMin + i[0] * (uMax - uMin), vMin + i[1] * (vMax - vMin), 0);
     if (postFlop) i = vector(1 - i[0], i[1], 0);
-    if (postFlip) i = vector(i[0], 1 - i[1], 0);
     return i;
 }
 
@@ -25,8 +16,8 @@ float uvMask(vector uv) {
     return u * v;
 }
 
-float center(float coord) {
-    return -(1/(coord * 2) - 0.5);
+float center(float f) {
+    return -(1/(f * 2) - 0.5);
 }
 
 shader emim(string filename = "" [[ string widget = "filename" ]],
@@ -110,24 +101,24 @@ shader emim(string filename = "" [[ string widget = "filename" ]],
     float t1 = 1.0/3.0, t2 = 2.0/3.0;
     vector layerWAttr = vector(0, 0, 1);
 
-    vector uvWR = uvRemap(uvX, t2, 1,  t1, t2, 1, 0, fR, 0) * uvMask(uvX) * maskR;
-    vector uvWL = uvRemap(uvX, 0,  t1, t1, t2, 0, 0, fR, 0) * uvMask(uvX) * maskL;
-    vector uvTP = uvRemap(uvY, t1, t2, t2, 1,  0, 1, fR, 0) * uvMask(uvY) * maskT;
-    vector uvBT = uvRemap(uvY, t1, t2, 0,  t1, 0, 0, fR, 0) * uvMask(uvY) * maskB;
-    vector uvWB = uvRemap(uvZ(layerWAttr, 0), t1, t2, t1, t2, 0, 0, fR, 0) * uvMask(uvZ(layerWAttr, 0));
+    vector uvWR = uvRemap(uvX, t2, 1,  t1, t2, 1, 0, fR) * uvMask(uvX) * maskR;
+    vector uvWL = uvRemap(uvX, 0,  t1, t1, t2, 0, 0, fR) * uvMask(uvX) * maskL;
+    vector uvTP = uvRemap(uvY, t1, t2, t2, 1,  0, 1, fR) * uvMask(uvY) * maskT;
+    vector uvBT = uvRemap(uvY, t1, t2, 0,  t1, 0, 0, fR) * uvMask(uvY) * maskB;
+    vector uvWB = uvRemap(uvZ(layerWAttr, 0), t1, t2, t1, t2, 0, 0, fR) * uvMask(uvZ(layerWAttr, 0));
 
     vector uvMerge = uvWR + uvWL + uvTP + uvBT + uvWB;
     color colMerge = texture(filename, uvMerge[0], 1 - uvMerge[1]);
 
     // layers uv remap & texture
     if (layerAEnable)
-        vector uvLA = uvRemap(uvZ(layerAAttr, 1), 0,  t1, t2, 1,  fA, 0, 0, 0) * uvMask(uvZ(layerAAttr, 0));
+        vector uvLA = uvRemap(uvZ(layerAAttr, 1), 0,  t1, t2, 1,  fA, 0, 0) * uvMask(uvZ(layerAAttr, 0));
     if (layerBEnable)
-        vector uvLB = uvRemap(uvZ(layerBAttr, 1), t2, 1,  t2, 1,  fB, 0, 0, 0) * uvMask(uvZ(layerBAttr, 0));
+        vector uvLB = uvRemap(uvZ(layerBAttr, 1), t2, 1,  t2, 1,  fB, 0, 0) * uvMask(uvZ(layerBAttr, 0));
     if (layerCEnable)
-        vector uvLC = uvRemap(uvZ(layerCAttr, 1), 0,  t1, 0,  t1, fC, 0, 0, 0) * uvMask(uvZ(layerCAttr, 0));
+        vector uvLC = uvRemap(uvZ(layerCAttr, 1), 0,  t1, 0,  t1, fC, 0, 0) * uvMask(uvZ(layerCAttr, 0));
     if (layerDEnable)
-        vector uvLD = uvRemap(uvZ(layerDAttr, 1), t2, 1,  0,  t1, fD, 0, 0, 0) * uvMask(uvZ(layerDAttr, 0));
+        vector uvLD = uvRemap(uvZ(layerDAttr, 1), t2, 1,  0,  t1, fD, 0, 0) * uvMask(uvZ(layerDAttr, 0));
 
     void appendLayer(vector uvlayer) {
         float alpha;
