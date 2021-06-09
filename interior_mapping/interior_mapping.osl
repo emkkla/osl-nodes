@@ -1,4 +1,4 @@
-// Interior Mapping Shader - float input version - v1.0.2 - Emeric Larochette
+// Interior Mapping Shader v1.0.2 - float inputs version - Emeric Larochette
 
 vector uvRemap(vector uv, float uMin, float uMax, float vMin, float vMax, int preFlop, int preFlip, int postFlop) {
     vector i = uv;
