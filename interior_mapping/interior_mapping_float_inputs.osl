@@ -1,0 +1,124 @@
+// Interior Mapping Shader - float input version - v1.0.2 - Emeric Larochette
+
+vector uvRemap(vector uv, float uMin, float uMax, float vMin, float vMax, int preFlop, int preFlip, int postFlop) {
+    vector i = uv;
+    if (preFlop) i = vector(1 - i[0], i[1], 0);
+    if (preFlip) i = vector(i[0], 1 - i[1], 0);
+    i = vector(uMin + i[0] * (uMax - uMin), vMin + i[1] * (vMax - vMin), 0);
+    if (postFlop) i = vector(1 - i[0], i[1], 0);
+    return i;
+}
+
+float uvMask(vector uv) {
+    float u = 0, v = 0;
+    if (0 < uv[0] && uv[0] < 1) u = 1;
+    if (0 < uv[1] && uv[1] < 1) v = 1;
+    return u * v;
+}
+
+float center(float f) {
+    return -(1 / (f * 2) - 0.5);
+}
+
+shader emim(string filename     = "" [[ string widget = "filename" ]],
+            float roomScaleX    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
+            float roomScaleY    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
+            float roomScaleZ    = 1.0 [[ float min = 0.1, float max = 10.0 ]],
+            int   roomFlop      = 0   [[ string widget = "boolean" ]],
+            int   layerAEnable  = 0   [[ string widget = "boolean" ]],
+            float layerAOffsetX = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerAOffsetY = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerAOffsetZ = 0.1 [[ float min = 0.01, float max = 9.99 ]],
+            int   layerAFlop    = 0   [[ string widget = "boolean" ]],
+            int   layerBEnable  = 0   [[ string widget = "boolean" ]],
+            float layerBOffsetX = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerBOffsetY = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerBOffsetZ = 0.3 [[ float min = 0.01, float max = 9.99 ]],
+            int   layerBFlop    = 0   [[ string widget = "boolean" ]],
+            int   layerCEnable  = 0   [[ string widget = "boolean" ]],
+            float layerCOffsetX = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerCOffsetY = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerCOffsetZ = 0.5 [[ float min = 0.01, float max = 9.99 ]],
+            int   layerCFlop    = 0   [[ string widget = "boolean" ]],
+            int   layerDEnable  = 0   [[ string widget = "boolean" ]],
+            float layerDOffsetX = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerDOffsetY = 0.0 [[ float min = -0.5, float max = 0.5 ]],
+            float layerDOffsetZ = 0.7 [[ float min = 0.01, float max = 9.99 ]],
+            int   layerDFlop    = 0   [[ string widget = "boolean" ]],
+            output color result = 0.0)
+{
+    // attributes
+    vector roomVec = vector(clamp(roomScaleX, 0.5, 2.0),
+                            clamp(roomScaleY, 0.5, 2.0),
+                            clamp(roomScaleZ, 0.1, 10.0));
+    vector layerDVec = vector(clamp(layerDOffsetX, -0.5, 0.5),
+                              clamp(layerDOffsetY, -0.5, 0.5),
+                              clamp(layerDOffsetZ, 0.00, roomVec[2] -0.01));
+    vector layerCVec = vector(clamp(layerCOffsetX, -0.5, 0.5),
+                              clamp(layerCOffsetY, -0.5, 0.5),
+                              clamp(layerCOffsetZ, 0.01, layerDVec[2] -0.01));
+    vector layerBVec = vector(clamp(layerBOffsetX, -0.5, 0.5),
+                              clamp(layerBOffsetY, -0.5, 0.5),
+                              clamp(layerBOffsetZ, 0.02, layerCVec[2] -0.01));
+    vector layerAVec = vector(clamp(layerAOffsetX, -0.5, 0.5),
+                              clamp(layerAOffsetY, -0.5, 0.5),
+                              clamp(layerAOffsetZ, 0.03, layerBVec[2] -0.01));
+
+    // base vectors
+    vector objI = vector("object", I[0], I[2], I[1]) / roomVec;
+    vector uv = vector(u, v, 0) / roomVec + vector(center(roomScaleX), center(roomScaleY), 0);
+
+    // masks
+    float maskR = step(0, objI[0]);
+    float maskL = 1 - maskR;
+    float maskB = step(0, objI[1]);
+    float maskT = 1 - maskB;
+
+    // core
+    vector uvX = vector(        (uv[0]-maskR) / objI[0] * objI[2],
+                        uv[1] + (uv[0]-maskR) / objI[0] * objI[1], 0);
+    vector uvY = vector(uv[0] + (uv[1]-maskT) / objI[1] * objI[0],
+                              - (uv[1]-maskT) / objI[1] * objI[2], 0);
+    vector uvZ(vector layerAttr, int offsetEnable) {
+        vector z = vector(uv[0] - 1 / objI[2] * objI[0] * layerAttr[2],
+                          uv[1] + 1 / objI[2] * objI[1] * layerAttr[2], 0);
+        if (offsetEnable) z -= vector(layerAttr[0], layerAttr[1], 0);
+        return z;
+    }
+
+    // room uv remap & texture
+    float t1 = 1.0/3.0, t2 = 2.0/3.0;
+    vector layerWAttr = vector(0, 0, 1);
+
+    vector uvWR = uvRemap(uvX, t2, 1,  t1, t2, 1, 0, roomFlop) * uvMask(uvX) * maskR;
+    vector uvWL = uvRemap(uvX, 0,  t1, t1, t2, 0, 0, roomFlop) * uvMask(uvX) * maskL;
+    vector uvTP = uvRemap(uvY, t1, t2, t2, 1,  0, 1, roomFlop) * uvMask(uvY) * maskT;
+    vector uvBT = uvRemap(uvY, t1, t2, 0,  t1, 0, 0, roomFlop) * uvMask(uvY) * maskB;
+    vector uvWB = uvRemap(uvZ(layerWAttr, 0), t1, t2, t1, t2, 0, 0, roomFlop) * uvMask(uvZ(layerWAttr, 0));
+
+    vector uvMerge = uvWB + uvWR + uvWL + uvBT + uvTP;
+    color colMerge = texture(filename, uvMerge[0], 1 - uvMerge[1]);
+
+    // layers uv remap & texture
+    if (layerAEnable)
+        vector uvLA = uvRemap(uvZ(layerAVec, 1), 0,  t1, t2, 1,  layerAFlop, 0, 0) * uvMask(uvZ(layerAVec, 0));
+    if (layerBEnable)
+        vector uvLB = uvRemap(uvZ(layerBVec, 1), t2, 1,  t2, 1,  layerBFlop, 0, 0) * uvMask(uvZ(layerBVec, 0));
+    if (layerCEnable)
+        vector uvLC = uvRemap(uvZ(layerCVec, 1), 0,  t1, 0,  t1, layerCFlop, 0, 0) * uvMask(uvZ(layerCVec, 0));
+    if (layerDEnable)
+        vector uvLD = uvRemap(uvZ(layerDVec, 1), t2, 1,  0,  t1, layerDFlop, 0, 0) * uvMask(uvZ(layerDVec, 0));
+
+    void appendLayer(vector uvlayer) {
+        float alpha;
+        color layer = texture(filename, uvlayer[0], 1 - uvlayer[1], "alpha", alpha);
+        colMerge = mix(colMerge, layer, alpha);
+    }
+
+    if (layerDEnable) appendLayer(uvLD);
+    if (layerCEnable) appendLayer(uvLC);
+    if (layerBEnable) appendLayer(uvLB);
+    if (layerAEnable) appendLayer(uvLA);
+
+    result = colMerge;
+}
