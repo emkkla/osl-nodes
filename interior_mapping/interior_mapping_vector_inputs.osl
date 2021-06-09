@@ -37,7 +37,7 @@ shader emim(string filename = "" [[ string widget = "filename" ]],
             int    layerDFlop   = 0 [[ string widget = "boolean" ]],
             output color result = 0.0)
 {
-    // offset ranges
+    // scale & offset ranges
     vector roomVec   = vector(clamp(roomScale[0], 0.5, 2.0),
                               clamp(roomScale[1], 0.5, 2.0),
                               clamp(roomScale[2], 0.5, 10.0));
