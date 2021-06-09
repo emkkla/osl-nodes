@@ -78,13 +78,13 @@ shader emim(string filename = "" [[ string widget = "filename" ]],
 
     // room uv remap & texture
     float t1 = 1.0/3.0, t2 = 2.0/3.0;
-    vector layerWAttr = vector(0, 0, 1);
+    vector layerWVec = vector(0, 0, 1);
 
     vector uvWR = uvRemap(uvX, t2, 1,  t1, t2, 1, 0, roomFlop) * uvMask(uvX) * maskR;
     vector uvWL = uvRemap(uvX, 0,  t1, t1, t2, 0, 0, roomFlop) * uvMask(uvX) * maskL;
     vector uvTP = uvRemap(uvY, t1, t2, t2, 1,  0, 1, roomFlop) * uvMask(uvY) * maskT;
     vector uvBT = uvRemap(uvY, t1, t2, 0,  t1, 0, 0, roomFlop) * uvMask(uvY) * maskB;
-    vector uvWB = uvRemap(uvZ(layerWAttr, 0), t1, t2, t1, t2, 0, 0, roomFlop) * uvMask(uvZ(layerWAttr, 0));
+    vector uvWB = uvRemap(uvZ(layerWVec, 0), t1, t2, t1, t2, 0, 0, roomFlop) * uvMask(uvZ(layerWVec, 0));
 
     vector uvMerge = uvWR + uvWL + uvTP + uvBT + uvWB;
     color colMerge = texture(filename, uvMerge[0], 1 - uvMerge[1]);
