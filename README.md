@@ -3,6 +3,8 @@ The OSL code I make is only tested with Isotropix Clarisse. It is thus designed 
 
 ## Interior Mapping Shader
 
+<img src="interior_mapping/interior_mapping_preview.png" width="800">
+
 | interior_mapping.osl |
 |-|
 | Room mapping with custom depth and horizontal/vertical scale |
