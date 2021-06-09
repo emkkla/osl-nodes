@@ -53,16 +53,16 @@ shader emim(string filename     = "" [[ string widget = "filename" ]],
                               clamp(roomScaleZ, 0.1, 10.0));
     vector layerDVec = vector(clamp(layerDOffsetX, -0.5, 0.5),
                               clamp(layerDOffsetY, -0.5, 0.5),
-                              clamp(layerDOffsetZ, 0.00, roomVec[2] -0.01));
+                              clamp(layerDOffsetZ, 0.03, roomVec[2] -0.01));
     vector layerCVec = vector(clamp(layerCOffsetX, -0.5, 0.5),
                               clamp(layerCOffsetY, -0.5, 0.5),
-                              clamp(layerCOffsetZ, 0.01, layerDVec[2] -0.01));
+                              clamp(layerCOffsetZ, 0.02, layerDVec[2] -0.01));
     vector layerBVec = vector(clamp(layerBOffsetX, -0.5, 0.5),
                               clamp(layerBOffsetY, -0.5, 0.5),
-                              clamp(layerBOffsetZ, 0.02, layerCVec[2] -0.01));
+                              clamp(layerBOffsetZ, 0.01, layerCVec[2] -0.01));
     vector layerAVec = vector(clamp(layerAOffsetX, -0.5, 0.5),
                               clamp(layerAOffsetY, -0.5, 0.5),
-                              clamp(layerAOffsetZ, 0.03, layerBVec[2] -0.01));
+                              clamp(layerAOffsetZ, 0.00, layerBVec[2] -0.01));
 
     // base vectors
     vector objI = vector("object", I[0], I[2], I[1]) / roomVec;
