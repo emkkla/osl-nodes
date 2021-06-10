@@ -24,7 +24,7 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 | Pre & Post remap options to avoid extra nodes use |
 | Inspired by Image Engine tools that were my all time favorites |
 
-| grade_color.osl |
+| grade_float.osl |
 |-|
 | Base on grade_color.osl for float only |
 | Pre & Post remap options to avoid extra nodes use |
