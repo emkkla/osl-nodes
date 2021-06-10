@@ -1,0 +1,36 @@
+// P-based Ramp Mask - Emeric Larochette
+
+float remap(float input, float minIn, float maxIn, float minOut, float maxOut) {
+    return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
+}
+
+shader emmask(  color input        = 1,
+                int   mode         = 0,
+                int   axis         = 1 [[ int min = 0, int max = 2 ]],
+
+                float minIn        = 0.0,
+                float maxIn        = 1.0,
+                float minOut       = 0.0,
+                float maxOut       = 1.0,
+
+                int   clampEnable  = 1,
+                int   clampCustom  = 0,
+                float clampLow     = 0.0,
+                float clampHigh    = 1.0,
+
+                output float out   = 0)
+{
+    p = P;
+    if (mode)
+        p = transform("object", P);
+    float p = P[axis];
+    float ramp = remap(input, minIn, maxIn, minOut, maxOut);
+
+    if (clampEnable) {
+        ramp = clamp(ramp, minOut, maxOut);
+        if (clampCustom)
+            ramp = clamp(ramp, clampLow, clampHigh);
+    }
+
+    out = ramp;
+}
