@@ -1,0 +1,42 @@
+// Sphere Mask v1.0.0 - Emeric Larochette
+
+float remap(float input, float minIn, float maxIn, float minOut, float maxOut) {
+    return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
+}
+
+shader emms(color input         = 1,
+            vector sphereCenter = vector(0, 0, 0),
+            int   smoothDecay   = 0   [[ int min = 0, int max = 1 ]],
+            float sphereRadius  = 0.5,
+            float sphereFeather = 0.1 [[ float min = 0 ]],
+            int   invertMask    = 0,
+
+            float valueA        = 0.0,
+            float valueB        = 1.0,
+
+            int   clampEnable   = 1,
+            int   clampCustom   = 0,
+            float clampLow      = 0.0,
+            float clampHigh     = 1.0,
+                
+            output float out = 0)
+{
+    float dist = distance(P, sphereCenter);
+    float maskLS = linearstep(sphereRadius, sphereRadius + sphereFeather, dist);
+    float maskSS = smoothstep(sphereRadius, sphereRadius + sphereFeather, dist);
+    float mask = 1 - maskLS;
+
+    if (smoothDecay)
+        mask = 1 - maskSS;
+    
+    if (invertMask)
+        mask = 1 - mask;
+
+    if (clampEnable) {
+        mask = clamp(mask, valueA, valueB);
+        if (clampCustom)
+            mask = clamp(mask, clampLow, clampHigh);
+    }
+
+    out = mask;
+}
