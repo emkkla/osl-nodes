@@ -12,7 +12,7 @@ The OSL code I make is only tested with Isotropix Clarisse. It is thus designed 
 | Global texture flop for the room, individual texture flop for each layers |
 | Testing texture template included |
 
-Interior mapping was invented by Joost van Dongen.
+Interior mapping was invented by Joost van Dongen.\
 Thanks to Julius Ihle since I saved quite some time by studying his work.
 
 ## Grade
@@ -44,5 +44,5 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 
 
 ## Feedback
-Code is never clean enough, settings are never self-exaplanatory enough.
+Code is never clean enough, settings are never self-exaplanatory enough.\
 If you have any idea, any issue, feel free to contact me or to submit a commit ;)
