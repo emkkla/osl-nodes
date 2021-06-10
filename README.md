@@ -38,7 +38,7 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 
 | mask_sphere.osl |
 |-|
-| Create spherical mask based center/radius/feather values |
+| Create spherical mask based on Center/Radius/Feather values |
 | Output can be unclamped/clamped to default values/clamped to custom values |
 | Will feature oval options soon |
 
