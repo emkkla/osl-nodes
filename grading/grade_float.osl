@@ -1,0 +1,73 @@
+// Grade Float Node v1.0.0 - Emeric Larochette
+
+float floatRemap(float input, float minIn, float maxIn, float minOut, float maxOut){
+    return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
+}
+
+float floatGrade(float input, float lift, float mult, float offset, float gamma){
+	float f = input;
+	f = floatRemap(f, 0, 1, lift, 1);
+	f = f * mult;
+	f = f + offset;
+	f = pow(f, 1/gamma);
+	return f;
+}
+
+shader emgf(float input           = 1,
+			float mask            = 1,
+
+			int   preRemapEnable  = 0,
+			int   preInvert       = 0,
+			float minIn           = 0,
+			float maxIn           = 1,
+			int   preClamp        = 0,
+			float preClampLow     = 0,
+            float preClampHigh    = 1,
+
+			int   gradeEnable     = 1,
+			float lift            = 0,
+			float multiply        = 1,
+			float offset          = 0,
+			float gamma           = 1,
+
+            int   postRemapEnable = 0,
+            int   postInvert      = 0,
+            float minOut          = 0,
+            float maxOut          = 1,
+            int   postClamp       = 0,
+            float postClampLow    = 0,
+            float postClampHigh   = 1,
+
+            output color out      = 0 )
+
+{
+	if (mask <= 0) out = input;
+	else{
+		float f = input;
+
+		// pre remap
+		if (preRemapEnable) {
+			if (preInvert)
+				f = 1 - f;
+			f = floatRemap(f, minIn, maxIn, 0, 1);
+			if (preClamp)
+				f = clamp(f, preClampLow, preClampHigh);
+		}
+
+		// main grade
+		if (gradeEnable)
+			f = floatGrade(f, lift, multiply, offset, gamma);
+
+		// post remap
+		if (postRemapEnable) {
+			if (postInvert)
+				f = 1 - f;
+			f = floatRemap(f, 0, 1, minOut, maxOut);
+		    if (postClamp)
+		    	f = clamp( f, postClampLow, postClampHigh);
+		}
+
+		// mask
+		out = mix(input, f, clamp(mask, 0, 1));
+	}
+}
