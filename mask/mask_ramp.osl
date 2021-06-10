@@ -4,21 +4,21 @@ float remap(float input, float minIn, float maxIn, float minOut, float maxOut) {
     return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
 }
 
-shader emmask(  color input        = 1,
-                int   objectMode   = 0,
-                int   axis         = 1 [[ int min = 0, int max = 2 ]],
+shader emmr(color input        = 1,
+            int   objectMode   = 0,
+            int   axis         = 1 [[ int min = 0, int max = 2 ]],
 
-                float posA         = 0.0,
-                float posB         = 1.0,
-                float valueA       = 0.0,
-                float valueB       = 1.0,
+            float posA         = 0.0,
+            float posB         = 1.0,
+            float valueA       = 0.0,
+            float valueB       = 1.0,
 
-                int   clampEnable  = 1,
-                int   clampCustom  = 0,
-                float clampLow     = 0.0,
-                float clampHigh    = 1.0,
+            int   clampEnable  = 1,
+            int   clampCustom  = 0,
+            float clampLow     = 0.0,
+            float clampHigh    = 1.0,
 
-                output float out   = 0)
+            output float out   = 0)
 {
     vector pos = transform("world", P);
     if (objectMode)
@@ -32,6 +32,6 @@ shader emmask(  color input        = 1,
         if (clampCustom)
             ramp = clamp(ramp, clampLow, clampHigh);
     }
-
+    
     out = ramp;
 }
