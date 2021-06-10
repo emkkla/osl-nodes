@@ -22,19 +22,19 @@ float center(float f) {
 
 shader emim(string filename = "" [[ string widget = "filename" ]],
             vector roomScale    = vector(1.0, 1.0, 1.0),
-            int    roomFlop     = 0 [[ string widget = "boolean" ]],
-            int    layerAEnable = 0 [[ string widget = "boolean" ]],
+            int    roomFlop     = 0 [[ string widget = "checkBox" ]],
+            int    layerAEnable = 0 [[ string widget = "checkBox" ]],
             vector layerAOffset = vector(0.0, 0.0, 0.1),
-            int    layerAFlop   = 0 [[ string widget = "boolean" ]],
-            int    layerBEnable = 0 [[ string widget = "boolean" ]],
+            int    layerAFlop   = 0 [[ string widget = "checkBox" ]],
+            int    layerBEnable = 0 [[ string widget = "checkBox" ]],
             vector layerBOffset = vector(0.0, 0.0, 0.3),
-            int    layerBFlop   = 0 [[ string widget = "boolean" ]],
-            int    layerCEnable = 0 [[ string widget = "boolean" ]],
+            int    layerBFlop   = 0 [[ string widget = "checkBox" ]],
+            int    layerCEnable = 0 [[ string widget = "checkBox" ]],
             vector layerCOffset = vector(0.0, 0.0, 0.5),
-            int    layerCFlop   = 0 [[ string widget = "boolean" ]],
-            int    layerDEnable = 0 [[ string widget = "boolean" ]],
+            int    layerCFlop   = 0 [[ string widget = "checkBox" ]],
+            int    layerDEnable = 0 [[ string widget = "checkBox" ]],
             vector layerDOffset = vector(0.0, 0.0, 0.7),
-            int    layerDFlop   = 0 [[ string widget = "boolean" ]],
+            int    layerDFlop   = 0 [[ string widget = "checkBox" ]],
             output color out    = 0.0)
 {
     // scale & offset ranges
