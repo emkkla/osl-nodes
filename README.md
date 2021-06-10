@@ -29,6 +29,20 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 | Base on grade_color.osl for float only |
 | Pre & Post remap options to avoid extra nodes use |
 
+## Mask
+
+| mask_ramp.osl |
+|-|
+| Create ramp mask based on World/Object position |
+| Output can be unclamped/clamped to default values/clamped to custom values |
+
+| mask_sphere.osl |
+|-|
+| Create spherical mask based center/radius/feather values |
+| Output can be unclamped/clamped to default values/clamped to custom values |
+| Will feature oval options soon |
+
+
 ### Feedback
 Code is never clean enough, settings are never self-exaplanatory enough.
 If you have ideas, feel free to contact me or to submit a commit ;)
