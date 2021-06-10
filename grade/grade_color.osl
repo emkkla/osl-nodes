@@ -29,7 +29,7 @@ color colorGrade(color input,
     color c = input;
     if (preSat != 1)
         c = colorSaturation(c, preSat);
-    if (lift !=0)
+    if (lift != 0)
         c = colorRemap(c, 0, 1, vector(lift, lift, lift), 1);
         c = c * gain;
         c = c * mult;
@@ -37,7 +37,7 @@ color colorGrade(color input,
         c = c + offset;
     if (hueShift != 0)
         c = colorHueShift(c, hueShift);
-    if (gamma != vector (1.0, 1.0, 1.0))
+    if (gamma != vector(1.0, 1.0, 1.0))
         c = color(pow(c[0], 1/gamma[0]), pow(c[1], 1/gamma[1]), pow(c[2], 1/gamma[2]));
     if (postSat != 1)
         c = colorSaturation(c, postSat);
@@ -85,9 +85,9 @@ shader emgc(color input           = 1,
         if (preRemapEnable) {
             if (preInvert)
                 c = 1 - c;
-            c = colorRemap( c, minIn, maxIn, 0, 1);
+            c = colorRemap(c, minIn, maxIn, 0, 1);
             if (preClamp)
-                c = clamp( c, preClampLow, preClampHigh);
+                c = clamp(c, preClampLow, preClampHigh);
         }
 
         // main grade
@@ -100,7 +100,7 @@ shader emgc(color input           = 1,
                 c = 1 - c;
             c = colorRemap(c, 0, 1, minOut, maxOut);
             if (postClamp)
-                c = clamp( c, postClampLow, postClampHigh);
+                c = clamp(c, postClampLow, postClampHigh);
         }
 
         // mask
