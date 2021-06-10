@@ -43,6 +43,6 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 | Will feature oval options soon |
 
 
-### Feedback
+## Feedback
 Code is never clean enough, settings are never self-exaplanatory enough.
-If you have ideas, feel free to contact me or to submit a commit ;)
+If you have any idea, any issue, feel free to contact me or to submit a commit ;)
