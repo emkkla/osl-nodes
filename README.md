@@ -19,9 +19,9 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 
 | grade_color.osl |
 |-|
-| Designed to match Nuke's grade |
-| Extra grade features that are usefull in lookdev |
-| Pre & Post remap options to avaoid extra nodes |
+| Designed to match Nuke's Grade node |
+| + some extras that are needed for advanced lookdev |
+| Pre & Post remap options to avoid extra nodes use |
 | Inspired by Image Engine tools that were my all time favorites |
 
 ### Feedback
