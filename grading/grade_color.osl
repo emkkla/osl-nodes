@@ -1,4 +1,4 @@
-// grade_color v1.0.0 - Emeric Larochette
+// Grade Color Node v1.0.0 - Emeric Larochette
 
 color colorSaturation(color input, float satMult){
     color c = transformc( "rgb", "hsv", input );
