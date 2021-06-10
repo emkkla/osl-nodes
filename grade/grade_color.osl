@@ -8,7 +8,7 @@ color colorSaturation(color input, float satMult){
 
 color colorHueShift(color input, float hueShift){
     color c = transformc("rgb", "hsv", input);
-    c = color(c[0] + hueShift/360, c[1], c[2]);
+    c = color(c[0] + hueShift/360.0, c[1], c[2]);
     return transformc("hsv", "rgb",  c);
 }
 
@@ -27,54 +27,54 @@ color colorGrade(color input,
                  color gamma,
                  float postSat) {
     color c = input;
-    if (preSat != 1)
+    if (preSat != 1.0)
         c = colorSaturation(c, preSat);
-    if (lift != 0)
+    if (lift != 0.0)
         c = colorRemap(c, 0, 1, vector(lift, lift, lift), 1);
         c = c * gain;
         c = c * mult;
         c = c * pow(2, exp);
         c = c + offset;
-    if (hueShift != 0)
+    if (hueShift != 0.0)
         c = colorHueShift(c, hueShift);
     if (gamma != vector(1.0, 1.0, 1.0))
         c = color(pow(c[0], 1/gamma[0]), pow(c[1], 1/gamma[1]), pow(c[2], 1/gamma[2]));
-    if (postSat != 1)
+    if (postSat != 1.0)
         c = colorSaturation(c, postSat);
     return c;
 }
 
-shader emgc(color input           = 1,
-            float mask            = 1,
+shader emgc(color input           = 1.0,
+            float mask            = 1.0,
 
             int   preRemapEnable  = 0,
             int   preInvert       = 0,
-            color minIn           = 0,
-            color maxIn           = 1,
+            color minIn           = 0.0,
+            color maxIn           = 1.0,
             int   preClamp        = 0,
-            float preClampLow     = 0,
-            float preClampHigh    = 1,
+            float preClampLow     = 0.0,
+            float preClampHigh    = 1.0,
 
             int   gradeEnable     = 1,
-            float preSat          = 1,
-            float lift            = 0,
-            color gain            = 1,
-            color multiply        = 1,
-            float exposure        = 0,
-            color offset          = 0,
-            float hueShift        = 0,
-            color gamma           = 1,
-            float postSat         = 1,
+            float preSat          = 1.0,
+            float lift            = 0.0,
+            color gain            = 1.0,
+            color multiply        = 1.0,
+            float exposure        = 0.0,
+            color offset          = 0.0,
+            float hueShift        = 0.0,
+            color gamma           = 1.0,
+            float postSat         = 1.0,
 
             int   postRemapEnable = 0,
             int   postInvert      = 0,
-            color minOut          = 0,
-            color maxOut          = 1,
+            color minOut          = 0.0,
+            color maxOut          = 1.0,
             int   postClamp       = 0,
-            float postClampLow    = 0,
-            float postClampHigh   = 1,
+            float postClampLow    = 0.0,
+            float postClampHigh   = 1.0,
 
-            output color out      = 0 )
+            output color out      = 0.0 )
 
 {
     if (mask <= 0) out = input;
