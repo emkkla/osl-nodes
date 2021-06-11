@@ -1,18 +1,18 @@
 // Grade Color Node v1.0.0 - Emeric Larochette
 
-color colorSaturation(color input, float satMult){
+color colorSaturation(color input, float satMult) {
     color c = transformc( "rgb", "hsv", input );
     c = color(c[0], c[1] * satMult, c[2]);
     return transformc("hsv", "rgb", c);
 }
 
-color colorHueShift(color input, float hueShift){
+color colorHueShift(color input, float hueShift) {
     color c = transformc("rgb", "hsv", input);
     c = color(c[0] + hueShift/360.0, c[1], c[2]);
     return transformc("hsv", "rgb",  c);
 }
 
-color colorRemap(color input, color minIn, color maxIn, color minOut, color maxOut){
+color colorRemap(color input, color minIn, color maxIn, color minOut, color maxOut) {
     return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
 }
 
