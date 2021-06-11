@@ -14,7 +14,7 @@ float floatGrade(float input, float lift, float mult, float offset, float gamma)
     return f;
 }
 
-shader emgf(float input           = 1.0,
+shader emgf(float input           = 0.0,
             float mask            = 1.0,
 
             int   preRemapEnable  = 0,
