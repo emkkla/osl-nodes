@@ -44,7 +44,7 @@ color colorGrade(color input,
     return c;
 }
 
-shader emgc(color input           = 1.0,
+shader emgc(color input           = 0.0,
             float mask            = 1.0,
 
             int   preRemapEnable  = 0,
