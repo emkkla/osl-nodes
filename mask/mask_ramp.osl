@@ -4,22 +4,21 @@ float remap(float input, float minIn, float maxIn, float minOut, float maxOut) {
     return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
 }
 
-shader emmr(color input        = 1,
-            int   objectMode   = 0,
-            int   axis         = 1 [[ int min = 0, int max = 2 ]],
+shader emmr(int   objectMode   = 0   [[ string widget = "checkBox" ]],
+            int   axis         = 1   [[ int min = 0, int max = 2 ]],
             float posA         = 0.0,
             float posB         = 1.0,
-            int   invertMask   = 0,
+            int   invertMask   = 0   [[ string widget = "checkBox" ]],
 
             float valueA       = 0.0,
             float valueB       = 1.0,
 
-            int   clampEnable  = 1,
-            int   clampCustom  = 0,
+            int   clampEnable  = 1   [[ string widget = "checkBox" ]],
+            int   clampCustom  = 0   [[ string widget = "checkBox" ]],
             float clampLow     = 0.0,
             float clampHigh    = 1.0,
 
-            output float out   = 0)
+            output float out   = 0.0)
 {
     vector pos = transform("world", P);
     if (objectMode)
@@ -35,8 +34,6 @@ shader emmr(color input        = 1,
         if (clampCustom)
             mask = clamp(mask, clampLow, clampHigh);
     }
-    
-    out = mask;
-}
+
     out = mask;
 }
