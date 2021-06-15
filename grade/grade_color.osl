@@ -8,7 +8,7 @@ color colorSaturation(color input, float satMult) {
 
 color colorHueShift(color input, float hueShift) {
     color c = transformc("rgb", "hsv", input);
-    c = color(c[0] + hueShift/360.0, c[1], c[2]);
+    c = color(c[0] + hueShift/360, c[1], c[2]);
     return transformc("hsv", "rgb",  c);
 }
 
