@@ -27,19 +27,19 @@ color colorGrade(color input,
                  color gamma,
                  float postSat) {
     color c = input;
-    if (preSat != 1.0)
+    if (preSat != 1)
         c = colorSaturation(c, preSat);
-    if (lift != 0.0)
+    if (lift != 0)
         c = colorRemap(c, 0, 1, lift, 1);
         c = c * gain;
         c = c * mult;
         c = c * pow(2, exp);
         c = c + offset;
-    if (hueShift != 0.0)
+    if (hueShift != 0)
         c = colorHueShift(c, hueShift);
-    if (gamma != vector(1.0, 1.0, 1.0))
+    if (gamma != vector(1, 1, 1))
         c = color(pow(c[0], 1/gamma[0]), pow(c[1], 1/gamma[1]), pow(c[2], 1/gamma[2]));
-    if (postSat != 1.0)
+    if (postSat != 1)
         c = colorSaturation(c, postSat);
     return c;
 }
