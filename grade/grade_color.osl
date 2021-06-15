@@ -104,6 +104,6 @@ shader emgc(color input           = 0.0,
         }
 
         // mask
-        out = mix(input, c, clamp( mask, 0, 1));
+        out = mix(input, c, clamp(mask, 0, 1));
     }
 }
