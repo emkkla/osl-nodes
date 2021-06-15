@@ -6,7 +6,7 @@ float floatRemap(float input, float minIn, float maxIn, float minOut, float maxO
 
 float floatGrade(float input, float lift, float mult, float offset, float gamma) {
     float f = input;
-    if (lift != 0.0)
+    if (lift != 0)
         f = floatRemap(f, 0, 1, lift, 1);
     f = f * mult;
     f = f + offset;
