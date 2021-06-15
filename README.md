@@ -17,17 +17,19 @@ Thanks to Julius Ihle since I saved quite some time by studying his work.
 
 ## Grade
 
+Inspired by Image Engine tools that were my all time favorites.
+I will make soon combine_color and combine_float nodes that go with them.
+
 | grade_color.osl |
 |-|
 | Designed to match Nuke's Grade node |
 | + some extras that are needed for advanced lookdev |
-| Pre & Post remap options to avoid extra nodes use |
-| Inspired by Image Engine tools that were my all time favorites |
+| Pre & Post remap options to avoid extra recurrent nodes use |
 
 | grade_float.osl |
 |-|
 | Base on grade_color.osl for float only |
-| Pre & Post remap options to avoid extra nodes use |
+| Pre & Post remap options to avoid extra recurrent nodes use |
 
 ## Mask
 
