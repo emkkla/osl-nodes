@@ -18,7 +18,7 @@ color colorRemap(color input, color minIn, color maxIn, color minOut, color maxO
 
 color colorGrade(color input,
                  float preSat,
-                 float lift,
+                 color lift,
                  color gain,
                  color mult,
                  float exp,
@@ -30,7 +30,7 @@ color colorGrade(color input,
     if (preSat != 1.0)
         c = colorSaturation(c, preSat);
     if (lift != 0.0)
-        c = colorRemap(c, 0, 1, vector(lift, lift, lift), 1);
+        c = colorRemap(c, 0, 1, lift, 1);
         c = c * gain;
         c = c * mult;
         c = c * pow(2, exp);
@@ -47,17 +47,17 @@ color colorGrade(color input,
 shader emgc(color input           = 0.0,
             float mask            = 1.0,
 
-            int   preRemapEnable  = 0,
-            int   preInvert       = 0,
+            int   preRemapEnable  = 0   [[ string widget = "checkBox" ]],
+            int   preInvert       = 0   [[ string widget = "checkBox" ]],
             color minIn           = 0.0,
             color maxIn           = 1.0,
-            int   preClamp        = 0,
+            int   preClamp        = 0   [[ string widget = "checkBox" ]],
             float preClampLow     = 0.0,
             float preClampHigh    = 1.0,
 
-            int   gradeEnable     = 1,
+            int   gradeEnable     = 1   [[ string widget = "checkBox" ]],
             float preSat          = 1.0,
-            float lift            = 0.0,
+            color lift            = 0.0,
             color gain            = 1.0,
             color multiply        = 1.0,
             float exposure        = 0.0,
@@ -66,11 +66,11 @@ shader emgc(color input           = 0.0,
             color gamma           = 1.0,
             float postSat         = 1.0,
 
-            int   postRemapEnable = 0,
-            int   postInvert      = 0,
+            int   postRemapEnable = 0   [[ string widget = "checkBox" ]],
+            int   postInvert      = 0   [[ string widget = "checkBox" ]],
             color minOut          = 0.0,
             color maxOut          = 1.0,
-            int   postClamp       = 0,
+            int   postClamp       = 0   [[ string widget = "checkBox" ]],
             float postClampLow    = 0.0,
             float postClampHigh   = 1.0,
 
