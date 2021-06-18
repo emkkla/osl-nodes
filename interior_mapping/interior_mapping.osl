@@ -20,7 +20,7 @@ float center(float f) {
     return -(1 / (f * 2) - 0.5);
 }
 
-shader emim(string filename     = "" [[ string widget = "filename" ]],
+shader emim(string filename     = ""  [[ string widget = "filename" ]],
             float roomScaleX    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
             float roomScaleY    = 1.0 [[ float min = 0.5, float max = 2.0 ]],
             float roomScaleZ    = 1.0 [[ float min = 0.1, float max = 10.0 ]],
@@ -87,7 +87,7 @@ shader emim(string filename     = "" [[ string widget = "filename" ]],
     }
 
     // room uv remap & texture
-    float t1 = 1.0/3.0, t2 = 2.0/3.0;
+    float t1 = 1.0/3, t2 = 2.0/3;
     vector layerWVec = vector(0, 0, 1);
 
     vector uvWR = uvRemap(uvX, t2, 1,  t1, t2, 1, 0, roomFlop) * uvMask(uvX) * maskR;
