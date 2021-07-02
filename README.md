@@ -40,10 +40,8 @@ Inspired by Image Engine tools that were my all time favorites.\
 
 | mask_sphere.osl |
 |-|
-| Create spherical mask based on Center/Radius/Feather values |
+| Create spherical mask based on Center/Radius/3 Axis Scale/Feather values |
 | Output can be unclamped/clamped to default values/clamped to custom values |
-| Will feature oval options soon |
-
 
 ## Feedback
 Code is never clean enough, settings are never self-exaplanatory enough.\
