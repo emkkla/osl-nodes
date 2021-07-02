@@ -5,9 +5,10 @@ float remap(float input, float minIn, float maxIn, float minOut, float maxOut) {
 }
 
 shader emms(vector sphereCenter = vector(0.0, 0.0, 0.0),
-            int   smoothDecay   = 0   [[ string widget = "checkBox" ]],
             float sphereRadius  = 0.5,
+            vector sphereScale  = vector(1.0, 1.0, 1.0),
             float sphereFeather = 0.1 [[ float min = 0 ]],
+            int   smoothDecay   = 0   [[ string widget = "checkBox" ]],
             int   invertMask    = 0   [[ string widget = "checkBox" ]],
 
             float valueA        = 0.0,
@@ -20,7 +21,10 @@ shader emms(vector sphereCenter = vector(0.0, 0.0, 0.0),
                 
             output float out    = 0.0)
 {
-    float dist = distance(P, sphereCenter);
+    vector P2 = P;
+    P2 /= sphereScale;
+    
+    float dist = distance(P2, sphereCenter);
     float maskLS = linearstep(sphereRadius, sphereRadius + sphereFeather, dist);
     float maskSS = smoothstep(sphereRadius, sphereRadius + sphereFeather, dist);
     float mask = 1 - maskLS;
