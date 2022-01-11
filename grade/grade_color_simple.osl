@@ -1,0 +1,72 @@
+// Grade Color Simple Node v1.0.0 - Emeric Larochette
+
+color colorSaturation(color input, float satMult) {
+    color c = transformc( "rgb", "hsv", input );
+    c = color(c[0], c[1] * satMult, c[2]);
+    return transformc("hsv", "rgb", c);
+}
+
+color colorHueShift(color input, float hueShift) {
+    color c = transformc("rgb", "hsv", input);
+    c = color(c[0] + hueShift/360, c[1], c[2]);
+    return transformc("hsv", "rgb",  c);
+}
+
+color colorRemap(color input, color minIn, color maxIn, color minOut, color maxOut) {
+    return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
+}
+
+color colorGrade(color input,
+                 float preSat,
+                 color lift,
+                 color gain,
+                 color mult,
+                 float exp,
+                 color offset,
+                 float hueShift,
+                 color gamma,
+                 float postSat) {
+    color c = input;
+    if (preSat != 1)
+        c = colorSaturation(c, preSat);
+    if (lift != color(0, 0, 0))
+        c = colorRemap(c, 0, 1, lift, 1);
+        c = c * gain;
+        c = c * mult;
+        c = c * pow(2, exp);
+        c = c + offset;
+    if (hueShift != 0)
+        c = colorHueShift(c, hueShift);
+    if (gamma != color(1, 1, 1))
+        c = color(pow(c[0], 1/gamma[0]), pow(c[1], 1/gamma[1]), pow(c[2], 1/gamma[2]));
+    if (postSat != 1)
+        c = colorSaturation(c, postSat);
+    return c;
+}
+
+shader emgc(color input           = 0.0,
+            float mask            = 1.0,
+
+            float preSat          = 1.0,
+            color lift            = 0.0,
+            color gain            = 1.0,
+            color multiply        = 1.0,
+            float exposure        = 0.0,
+            color offset          = 0.0,
+            float hueShift        = 0.0,
+            color gamma           = 1.0,
+            float postSat         = 1.0,
+
+            output color out      = 0.0)
+
+{
+    if (mask <= 0) out = input;
+    else {
+        color c = input;
+
+        c = colorGrade(c, preSat, lift, gain, multiply, exposure, offset, hueShift, gamma, postSat);
+
+        // mask
+        out = mix(input, c, clamp(mask, 0, 1));
+    }
+}
