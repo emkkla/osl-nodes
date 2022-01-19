@@ -1,0 +1,37 @@
+// Grade Float Simple Node v1.0.0 - Emeric Larochette
+
+float floatRemap(float input, float minIn, float maxIn, float minOut, float maxOut) {
+    return minOut + (input - minIn) * (maxOut - minOut) / (maxIn - minIn);
+}
+
+float floatGrade(float input, float lift, float mult, float offset, float gamma) {
+    float f = input;
+    if (lift != 0)
+        f = floatRemap(f, 0, 1, lift, 1);
+    f = f * mult;
+    f = f + offset;
+    f = pow(f, 1/gamma);
+    return f;
+}
+
+shader emgf(float input           = 0.0,
+            float mask            = 1.0,
+
+            float lift            = 0.0,
+            float multiply        = 1.0,
+            float offset          = 0.0,
+            float gamma           = 1.0,
+
+            output color out      = 0.0)
+
+{
+    if (mask <= 0) out = input;
+    else{
+        float f = input;
+
+        f = floatGrade(f, lift, multiply, offset, gamma);
+
+        // mask
+        out = mix(input, f, clamp(mask, 0, 1));
+    }
+}
